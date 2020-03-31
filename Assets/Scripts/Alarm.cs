@@ -13,14 +13,14 @@ public class Alarm : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        StopAllCoroutines();
-        StartCoroutine(RiseSound());
+        StopCoroutine("FadeOutSound");
+        StartCoroutine("RiseSound");
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        StopAllCoroutines();
-        StartCoroutine(FadeOutSound());
+        StopCoroutine("RiseSound");
+        StartCoroutine("FadeOutSound");
     }
 
     private IEnumerator RiseSound()
