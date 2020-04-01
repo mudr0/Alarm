@@ -5,6 +5,8 @@ using UnityEngine;
 public class Alarm : MonoBehaviour
 {
     private AudioSource _alarmSound;
+    private IEnumerator _coroutineRise;
+    private IEnumerator _coroutineFadeOut;
 
     private void Start()
     {
@@ -13,14 +15,17 @@ public class Alarm : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        StopCoroutine("FadeOutSound");
-        StartCoroutine("RiseSound");
+        _coroutineRise = RiseSound();
+        if (_coroutineFadeOut != null)
+            StopCoroutine(_coroutineFadeOut);
+        StartCoroutine(_coroutineRise);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        StopCoroutine("RiseSound");
-        StartCoroutine("FadeOutSound");
+        _coroutineFadeOut = FadeOutSound();
+        StopCoroutine(_coroutineRise);
+        StartCoroutine(_coroutineFadeOut);
     }
 
     private IEnumerator RiseSound()
